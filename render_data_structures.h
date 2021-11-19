@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <cstring> // memcopy
-//#include <cmath>
+#include <cmath>
 
 struct Vec4
 {
@@ -28,10 +28,10 @@ struct Point
 struct Matrix4
 {
   float m_data[4][4] {
-    1, 0, 0, 0,
-    0, 1, 0, 0,
-    0, 0, 1, 0,
-    0, 0, 0, 1
+    0, 0, 0, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0
   };
 };
 
@@ -46,6 +46,7 @@ void to_identity_matrix(Matrix4 &m)
 struct Triangle
 {
   Vec4 tri[3];
+  Vec4 normal;
   float shadow_interpolated;
 };
 
@@ -62,15 +63,15 @@ struct ScreenBuffer
   float z;
 };
 
-void triangle_buffer_init(TriangleBuffer &t_buffer, uint32_t size, uint32_t max_num_tris)
-{
-  t_buffer.size = size;
-  t_buffer.max_num_tris = max_num_tris;
-  t_buffer.tris = (Triangle *) malloc(t_buffer.max_num_tris * sizeof(Triangle));
-  if (t_buffer.tris == NULL)
-    exit(-1);
-  // t_buffer.tris = (Triangle *) malloc(t_buffer.max_num_tris * sizeof(Triangle));
-};
+// void triangle_buffer_init(TriangleBuffer &t_buffer, uint32_t size, uint32_t max_num_tris)
+// {
+//   t_buffer.size = size;
+//   t_buffer.max_num_tris = max_num_tris;
+//   t_buffer.tris = (Triangle *) malloc(t_buffer.max_num_tris * sizeof(Triangle));
+//   if (t_buffer.tris == NULL)
+//     exit(-1);
+//   // t_buffer.tris = (Triangle *) malloc(t_buffer.max_num_tris * sizeof(Triangle));
+// };
 
 void triangle_buffer_copy(TriangleBuffer *from_buffer, TriangleBuffer *to_buffer)
 {
@@ -121,10 +122,10 @@ Matrix4 GeometryCalc::matrix_matrix_mul(const Matrix4 &a, const Matrix4 &b)
   {
       for (int j = 0; j < 4; j++)
       {
-          ret.m_data[i*3][j] = 0;
+          ret.m_data[i][j] = 0;
           for (int k = 0; k < 4; k++)
           {
-              ret.m_data[i * 3][j] += a.m_data[i * 3][k] * b.m_data[i * 3][k];
+              ret.m_data[i][j] += a.m_data[i][k] * b.m_data[k][j];
           }
       }
   }
@@ -152,11 +153,15 @@ Matrix4 GeometryCalc::matrix_matrix_add(const Matrix4 &a, const Matrix4 &b)
 
 void GeometryCalc::matrix_row_to_column(Matrix4 &matrix)
 {
-  float temp;
+  float temp1 = 0;
+  float temp2 = 0;
+
   for(size_t row = 0; row < 4; row++) {
     for(size_t col = 0; col < 4; col++) {
-      temp = matrix.m_data[col][row];
-      matrix.m_data[row][col] = temp;
+      temp1 = matrix.m_data[col][row];
+      temp2 = matrix.m_data[row][col];
+      matrix.m_data[row][col] = temp1;
+      matrix.m_data[col][row] = temp2;
     }
   }
 }
@@ -196,7 +201,7 @@ Vec4 GeometryCalc::vector_sub(const Vec4 &a, const Vec4 &b)
 
 float GeometryCalc::vector_dot(const Vec4 &a, const Vec4 &b)
 {
-  return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+  return sqrtf((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
 }
 
 Vec4 GeometryCalc::vector_cross(const Vec4 &a, const Vec4 &b)

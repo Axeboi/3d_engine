@@ -12,6 +12,7 @@
 #include "olc/olcPixelGameEngine.h"
 #include "render_core.h"
 #include "render_data_structures.h"
+#include "./utils/init_geometry.h"
 #include <vector>
 
 #ifndef PI
@@ -23,7 +24,7 @@ double rotation_inc = 0.0;
 class RenderEngine : public olc::PixelGameEngine
 {
 public:
-	float f = 1.0;
+	float f = 0.1;
 	float n = 100.0;
 	float fov = PI / 2.0;
 
@@ -31,8 +32,8 @@ public:
 	TriangleBuffer world_buffer;
 	std::vector<std::vector<ScreenBuffer>> screenBuffer;
 
-	float camera_speed{ 0.01f };
-	Vec4 camera_location{ 0.0, 0.0, 0.0, 1.0 }; // Strange... negative x and y makes triangle disappear...
+	float camera_speed{ 0.1f };
+	Vec4 camera_location{ 0.0, 0.0, -5.0, 1.0 };
 	Vec4 camera_direction{ 0.0, 0.0, -1.0, 1.0 };
 	Matrix4 transform;
 	Vec4 light {0.0, 0.0, 1.0, 0.0};
@@ -64,13 +65,18 @@ public:
 		}
 
 		// Initialize buffer and buffer copy
-		triangle_buffer_init(original_buffer, 0, 16);
-		triangle_buffer_init(world_buffer, 0, 16);
+		triangle_buffer_init(original_buffer);
+
+		world_buffer.max_num_tris = original_buffer.max_num_tris;
+		world_buffer.size = original_buffer.size;
+		world_buffer.tris = (Triangle *) malloc(world_buffer.max_num_tris * sizeof(Triangle));
+
+		//triangle_buffer_init(world_buffer);
 
 		//Vec4 camera {0.0, 0.0, -1.0, 0.0};
 		//Vec4 light {0.0, 0.0, -1.0, 0.0};
 
-		load_scene(original_buffer); 
+		//load_scene(original_buffer); 
 		return true;
 	}
 
@@ -86,18 +92,20 @@ public:
 		if (GetKey(olc::Key::F).bHeld) camera_location.z -= camera_speed;
 		if (GetKey(olc::Key::W).bHeld) camera_location.y += camera_speed;
 		if (GetKey(olc::Key::S).bHeld) camera_location.y -= camera_speed;
-		//assert_matrix();
+		if (GetKey(olc::Key::Z).bPressed) camera_speed = 2.0;
+		if (GetKey(olc::Key::X).bPressed) camera_speed = 0.1f;
 		//assert_vectors();
-		
+		//assert_matrix();
+
 		// Render
 		triangle_buffer_copy(&original_buffer, &world_buffer);
 		to_identity_matrix(transform);
 
-		temp_transform_vectors(world_buffer, move);
-		get_camera_transform(world_buffer, camera_location, camera_direction);
+		//temp_transform_vectors(world_buffer, move);
+		get_camera_transform(world_buffer, transform, camera_location, camera_direction);
+		apply_light(world_buffer, camera_location);
 		get_projection_transform(transform, f, n, fov);
 		apply_world_to_projection_transform(world_buffer, transform);
-		apply_light(world_buffer, camera_location);
 			
 		rasterize(world_buffer, screenBuffer, ScreenWidth(), ScreenHeight());
 		output();
@@ -114,7 +122,7 @@ public:
 			{
 				if (screenBuffer[i][j].r > 0 || screenBuffer[i][j].g > 0 || screenBuffer[i][j].b > 0)
 				{
-					this->Draw(j, i, olc::Pixel(screenBuffer[i][j].r, screenBuffer[i][j].g, screenBuffer[i][j].b, 255));
+					this->Draw(j, i, olc::Pixel(screenBuffer[i][j].r, screenBuffer[i][j].g, screenBuffer[i][j].b));
 				}
 			}
 		}
