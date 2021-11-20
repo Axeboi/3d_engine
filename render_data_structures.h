@@ -106,9 +106,11 @@ struct GeometryCalc
   static Vec4 triangle_normal(const Triangle &a);
 
   // Vector math
+  static float vector_length(const Vec4&);
   static Vec4 vector_add(const Vec4&, const Vec4&);
   static Vec4 vector_sub(const Vec4&, const Vec4&);
   static float vector_dot(const Vec4&, const Vec4&);
+  static float vector_cos(const Vec4 &a, const Vec4 &b);
   static Vec4 vector_cross(const Vec4 &, const Vec4 &);
   static void normalize(Vec4 &);
 };
@@ -201,7 +203,17 @@ Vec4 GeometryCalc::vector_sub(const Vec4 &a, const Vec4 &b)
 
 float GeometryCalc::vector_dot(const Vec4 &a, const Vec4 &b)
 {
-  return sqrtf((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
+  return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
+}
+
+float GeometryCalc::vector_cos(const Vec4 &a, const Vec4 &b)
+{
+  return vector_dot(a, b) / (vector_length(a) * vector_length(b));
+}
+
+float GeometryCalc::vector_length(const Vec4 &vec)
+{
+  return sqrtf((vec.x * vec.x) + (vec.y * vec.y) + (vec.z * vec.z));
 }
 
 Vec4 GeometryCalc::vector_cross(const Vec4 &a, const Vec4 &b)

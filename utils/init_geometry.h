@@ -35,7 +35,7 @@ triangle_buffer_init(TriangleBuffer &buffer)
 
     //assert(counter % 3 == 0);
 
-    buffer.max_num_tris = 4096;
+    buffer.max_num_tris = 100000;
     buffer.size = 0;
     buffer.tris = (Triangle *) malloc(buffer.max_num_tris * sizeof(Triangle));
     if(buffer.tris == NULL)
@@ -114,6 +114,10 @@ parse_obj_file(TriangleBuffer &buffer)
             normal_from_file >> normal_to_array.y;
             normal_from_file >> normal_to_array.z;
             normal_to_array.w = 1.0;
+
+            // normal_to_array.x = -normal_to_array.x;
+            // normal_to_array.y = -normal_to_array.y;
+            // normal_to_array.z = -normal_to_array.z;
 
             normal_arr.push_back(normal_to_array);
         }

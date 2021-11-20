@@ -33,7 +33,7 @@ public:
 	std::vector<std::vector<ScreenBuffer>> screenBuffer;
 
 	float camera_speed{ 0.1f };
-	Vec4 camera_location{ 0.0, 0.0, -5.0, 1.0 };
+	Vec4 camera_location{ 0.0, 0.0, 5.0, 1.0 };
 	Vec4 camera_direction{ 0.0, 0.0, -1.0, 1.0 };
 	Matrix4 transform;
 	Vec4 light {0.0, 0.0, 1.0, 0.0};
@@ -88,8 +88,8 @@ public:
 
 		if (GetKey(olc::Key::A).bHeld) camera_location.x -= camera_speed;
 		if (GetKey(olc::Key::D).bHeld) camera_location.x += camera_speed;
-		if (GetKey(olc::Key::R).bHeld) camera_location.z += camera_speed;
-		if (GetKey(olc::Key::F).bHeld) camera_location.z -= camera_speed;
+		if (GetKey(olc::Key::R).bHeld) camera_location.z -= camera_speed;
+		if (GetKey(olc::Key::F).bHeld) camera_location.z += camera_speed;
 		if (GetKey(olc::Key::W).bHeld) camera_location.y += camera_speed;
 		if (GetKey(olc::Key::S).bHeld) camera_location.y -= camera_speed;
 		if (GetKey(olc::Key::Z).bPressed) camera_speed = 2.0;

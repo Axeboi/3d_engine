@@ -197,21 +197,26 @@ void apply_world_to_projection_transform(TriangleBuffer& triangles, Matrix4 tran
 void apply_light(TriangleBuffer &triangles, Vec4 light_source_normal) // 
 {
   GeometryCalc::normalize(light_source_normal);
+  Matrix4 camera_matrix {
+    -1.0, 0, 0, 0,
+    0, 1.0, 0, 0,
+    0, 0, -1.0, 0,
+    light_source_normal.x, light_source_normal.y, light_source_normal.z, 1,
+  };
+  
   for (size_t i = 0; i < triangles.size; i++)
   {
     Vec4 light_direction { 0.0, 0.0, -1.0, 1.0 };
-    Vec4 point_location = GeometryCalc::vector_sub(triangles.tris[i].tri[0], light_source_normal);
-    //if(GeometryCalc::vector_dot(point_location, light_direction) > 0)   // If triangle is visible to the camera, this should be a positive number
-    //{
+    Vec4 point_location = GeometryCalc::vec_matrix_mul(triangles.tris[i].tri[0], camera_matrix);
+    // if(GeometryCalc::vector_dot(point_location, light_direction) > 0)   // If triangle is visible to the camera, this should be a positive number
+    // {
 
       Vec4 normal = triangles.tris[i].normal;
       GeometryCalc::normalize(normal);
       GeometryCalc::normalize(point_location);
 
-      // triangles.tris[i].shadow_interpolated = GeometryCalc::vector_dot(normal, light_source_normal);
-      float shadow_interpolated = GeometryCalc::vector_dot(normal, light_direction);
-      triangles.tris[i].shadow_interpolated = shadow_interpolated;
-    //}
+      triangles.tris[i].shadow_interpolated = 1 - std::max(GeometryCalc::vector_cos(normal, point_location), 0.0f);
+    // }
   }
 };
 
@@ -221,7 +226,7 @@ void rasterize(const TriangleBuffer &triangles, std::vector<std::vector<ScreenBu
   {
     // Triangles with w value less then 0 is behind the camera in the 4th dimension and will appear in front of the camera but mirrored
     // Here we need to do some clipping to make sure that triangle points close to the camera are clamped to w = 0;
-    if(triangles.tris[i].tri[0].w < 0 && triangles.tris[i].tri[1].w < 0 && triangles.tris[i].tri[2].w < 0)
+    if(triangles.tris[i].tri[0].w > 0 && triangles.tris[i].tri[1].w > 0 && triangles.tris[i].tri[2].w > 0)
       continue;
 
     for (size_t p = 0; p < 3; p++)
@@ -249,14 +254,16 @@ void setImagePixel(std::vector<std::vector<ScreenBuffer>> &screen_buffer, const 
     // screen_buffer[p.y][p.x].r = fw0;
     // screen_buffer[p.y][p.x].g = fw1;
     // screen_buffer[p.y][p.x].b = fw2;
-     screen_buffer[p.y][p.x].r = (unsigned int) (col * 255.0);
-     screen_buffer[p.y][p.x].g = (unsigned int) (col * 255.0);
-     screen_buffer[p.y][p.x].b = (unsigned int) (col * 255.0);
+     screen_buffer[p.y][p.x].r = (unsigned int) (col * 255.0f);
+     screen_buffer[p.y][p.x].g = (unsigned int) (col * 255.0f);
+     screen_buffer[p.y][p.x].b = (unsigned int) (col * 255.0f);
     //do moar stuff
   }
 }
 
-int orient2d(const Point& a, const Point& c, const Point& b)
+// Calculate barycentric coordinates, one line at a time
+// Note: swapping b and c will change the winding of triangle
+int orient2d(const Point& a, const Point& b, const Point& c)
 {
   return ((b.x - a.x) * (c.y - a.y)) - ((b.y - a.y) * (c.x - a.x));
 }
@@ -280,16 +287,6 @@ void draw_triangle(std::vector<std::vector<ScreenBuffer>> &screen_buffer, size_t
   p2.x = (input_p2.x + 1) * (0.5 * (screen_width -1));
   p2.y = (input_p2.y + 1) * (0.5 * (screen_height -1));
   p2.z = input_p2.z;
-
-  // p0.x = input_p0.x;
-  // p0.y = input_p0.y;
-  // p0.z = input_p0.z;
-  // p1.x = input_p1.x;
-  // p1.y = input_p1.y;
-  // p1.z = input_p1.z;
-  // p2.x = input_p2.x;
-  // p2.y = input_p2.y;
-  // p2.z = input_p2.z;
   
   // AABB for triangle
   int minX = min3(p0.x, p1.x, p2.x);
@@ -333,27 +330,6 @@ void assert_matrix()
   assert(float_equal(m_identity.m_data[1][1], 1));
   assert(float_equal(m_identity.m_data[2][2], 1));
   assert(float_equal(m_identity.m_data[3][3], 1));
-
-  // Matrix4 m_flip {
-  //   1,2,3,4,
-  //   5,6,7,8,
-  //   9,10,11,12,
-  //   13,14,15,16,
-  // };
-
-  // Matrix4 m_flipped {
-  //   1,5,9,13,
-  //   2,6,10,14,
-  //   3,7,11,15,
-  //   4,8,12,16,
-  // };
-
-  // GeometryCalc::matrix_row_to_column(m_flip);
-
-  // assert(float_equal(m_flip.m_data[0][0], m_flipped.m_data[0][0]));
-  // assert(float_equal(m_flip.m_data[1][0], m_flipped.m_data[0][1]));
-  // assert(float_equal(m_flip.m_data[2][0], m_flipped.m_data[0][2]));
-  // assert(float_equal(m_flip.m_data[3][0], m_flipped.m_data[0][3]));
 
   Matrix4 mul_a {
     5, 7, 9, 10,
