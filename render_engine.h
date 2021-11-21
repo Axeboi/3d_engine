@@ -101,8 +101,8 @@ public:
 		triangle_buffer_copy(&original_buffer, &world_buffer);
 		to_identity_matrix(transform);
 
-		//temp_transform_vectors(world_buffer, move);
-		get_camera_transform(world_buffer, transform, camera_location, camera_direction);
+		//transform_vectors(world_buffer, move);
+		get_camera_transform(world_buffer, transform, camera_location, camera_direction); // This method shouls not manipulate triangles yet, should change the transform matrix
 		apply_light(world_buffer, camera_location);
 		get_projection_transform(transform, f, n, fov);
 		apply_world_to_projection_transform(world_buffer, transform);

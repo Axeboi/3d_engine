@@ -15,9 +15,9 @@ struct Vec4
 struct Point
 {
   //Vec4 in_space;
-  float x;
-  float y;
-  float z;
+  int x;
+  int y;
+  int z;
 
   uint32_t r;
   uint32_t g;

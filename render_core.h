@@ -12,7 +12,7 @@ const double PI = 3.14159265358979323846;
 
 // Forward declarations
 void draw_triangle(std::vector<std::vector<ScreenBuffer>> &, size_t, size_t, Vec4&, Vec4& , Vec4& , float );
-
+bool float_equal(float, float);
 
 void load_scene(TriangleBuffer &buffer)
 {
@@ -96,14 +96,79 @@ void load_scene(TriangleBuffer &buffer)
   });
 };
 
-void temp_transform_vectors(TriangleBuffer &triangles, Vec4 &move)
+void transform_vectors(TriangleBuffer &triangles, Vec4 &move)
 {   
-    Vec4 tmp;
+    float theta = 3.1415;
+    Matrix4 x_rot {
+      1, 0, 0, 0,
+      0, std::cos(theta/2), -std::sin(theta/2), 0,
+      0, std::sin(theta/2), std::cos(theta/2), 0,
+      0, 0, 0, 1,
+    };
+
+    Matrix4 z_rot {
+      std::cos(theta + theta/4), -std::sin(theta + theta/4), 0, 0, 
+      std::sin(theta + theta/4), std::cos(theta + theta/4), 0, 0,
+      0, 0, 1, 0, 
+      0, 0, 0, 1,
+    };
+
+    Matrix4 y_rot {
+      std::cos(theta/2), 0, std::sin(theta/2), 0,
+      0, 1, 0, 0,
+      -std::sin(theta/2), 0, std::cos(theta/2), 0,
+      0, 0, 0, 1,
+    };
+
+    Matrix4 x_rot_inverse {
+      1, 0, 0, 0,
+      0, -std::cos(theta/2), std::sin(theta/2), 0,
+      0, -std::sin(theta/2), -std::cos(theta/2), 0,
+      0, 0, 0, 1,
+    };
+
+     Matrix4 z_rot_inverse {
+      -std::cos(theta/2), std::sin(theta/2), 0, 0,
+      -std::sin(theta/2), -std::cos(theta/2), 0, 0,
+      0, 0, 1, 0,
+      0, 0, 0, 1,
+    };
+
+    Matrix4 y_rot_inverse {
+      -std::cos(theta/2), 0, -std::sin(theta/2), 0,
+      0, 1, 0, 0,
+      -std::sin(theta/2), 0, -std::cos(theta/2), 0,
+      0, 0, 0, 1,
+    };
+
+    Matrix4 trans {
+      1, 0, 0, 0,
+      0, 1, 0, 0, 
+      0, 0, 1, 0,
+      0, 0, 400, 1
+    };
+
+    Matrix4 tmp;
+    Matrix4 rotate_and_move;
+    Vec4 tmp2;
+    tmp = GeometryCalc::matrix_matrix_mul(z_rot, x_rot);
+    rotate_and_move = tmp;
+    tmp = GeometryCalc::matrix_matrix_mul(rotate_and_move, trans);
+    rotate_and_move = tmp;
+ 
+
+    tmp = GeometryCalc::matrix_matrix_mul(z_rot, x_rot);
+    //tmp = GeometryCalc::vector_add(triangles.tris[i].tri[j], move);
+
     for (uint32_t i = 0; i < triangles.size; i++)
         for (uint32_t j = 0; j < 3; j++)
         {
-            tmp = GeometryCalc::vector_add(triangles.tris[i].tri[j], move);
-            triangles.tris[i].tri[j] = tmp;
+            //tmp = GeometryCalc::vector_add(triangles.tris[i].tri[j], move);
+            //tmp = GeometryCalc::matrix_matrix_mul(x_rot, trans);
+            tmp2 = GeometryCalc::vec_matrix_mul(triangles.tris[i].tri[j], rotate_and_move);
+            triangles.tris[i].tri[j] = tmp2;
+            Vec4 n = GeometryCalc::vec_matrix_mul(triangles.tris[i].normal, tmp);
+            triangles.tris[i].normal = n;
         }
 };
 
@@ -172,7 +237,7 @@ Matrix4 get_projection_transform(Matrix4 &transform, float f, float n, float fov
   Matrix4 projection {
     (std::cos(fov/2) / std::sin(fov/2)), 0,                                   0,          0,
     0,                                   (std::cos(fov/2) / std::sin(fov/2)), 0,          0,
-    0,                                   0,                                   magic_nr1,  -1, 
+    0,                                   0,                                   magic_nr1,  -1,
     0,                                   0,                                   magic_nr2,  0,
   };
 
@@ -215,7 +280,7 @@ void apply_light(TriangleBuffer &triangles, Vec4 light_source_normal) //
       GeometryCalc::normalize(normal);
       GeometryCalc::normalize(point_location);
 
-      triangles.tris[i].shadow_interpolated = 1 - std::max(GeometryCalc::vector_cos(normal, point_location), 0.0f);
+      triangles.tris[i].shadow_interpolated = std::max(GeometryCalc::vector_cos(normal, point_location), 0.0f);
     // }
   }
 };
@@ -261,6 +326,12 @@ void setImagePixel(std::vector<std::vector<ScreenBuffer>> &screen_buffer, const 
   }
 }
 
+bool is_top_left(const Point& a, const Point& b)
+{
+  
+   return !(a.x == b.x || a.y < b.y);
+}
+
 // Calculate barycentric coordinates, one line at a time
 // Note: swapping b and c will change the winding of triangle
 int orient2d(const Point& a, const Point& b, const Point& c)
@@ -300,15 +371,20 @@ void draw_triangle(std::vector<std::vector<ScreenBuffer>> &screen_buffer, size_t
   maxX = std::min(maxX, (int) screen_width - 1);
   maxY = std::min(maxY, (int) screen_height - 1);
 
+  int bias0 = is_top_left(p1, p2) ? 0 : -1;
+  int bias1 = is_top_left(p2, p0) ? 0 : -1;
+  int bias2 = is_top_left(p0, p1) ? 0 : -1;
+
   // How to define point p in a way that makes sense?
   Point p;
   for (p.y = minY; p.y < maxY; p.y++)
   {
     for (p.x = minX; p.x < maxX; p.x++)
     {
-      int w0 = orient2d(p1, p2, p);
-      int w1 = orient2d(p2, p0, p);
-      int w2 = orient2d(p0, p1, p);
+      
+      int w0 = orient2d(p1, p2, p) + bias0;
+      int w1 = orient2d(p2, p0, p) + bias1;
+      int w2 = orient2d(p0, p1, p) + bias2;
       if (w0 >= 0 && w1 >= 0 && w2 >= 0)
       {
         setImagePixel(screen_buffer, p, w0, w1, w2, p0.z, p1.z, p2.z, col);
