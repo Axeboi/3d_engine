@@ -17,7 +17,7 @@ struct Point
   //Vec4 in_space;
   int x;
   int y;
-  int z;
+  float z;
 
   uint32_t r;
   uint32_t g;
@@ -208,7 +208,11 @@ float GeometryCalc::vector_dot(const Vec4 &a, const Vec4 &b)
 
 float GeometryCalc::vector_cos(const Vec4 &a, const Vec4 &b)
 {
-  return vector_dot(a, b) / (vector_length(a) * vector_length(b));
+  Vec4 a_norm = a;
+  Vec4 b_norm = b;
+  GeometryCalc::normalize(a_norm);
+  GeometryCalc::normalize(b_norm);
+  return vector_dot(a_norm, b_norm) / (vector_length(a_norm) * vector_length(b_norm));
 }
 
 float GeometryCalc::vector_length(const Vec4 &vec)

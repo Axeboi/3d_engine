@@ -214,15 +214,15 @@ void get_camera_transform(TriangleBuffer &buffer, Matrix4 &transform, Vec4 &came
     GeometryCalc::matrix_row_to_column(rotation);
     res = GeometryCalc::matrix_matrix_mul(rotation, x_rotation);*/
 
-    for (uint32_t t = 0; t < buffer.size; t++)
-        for (uint32_t v = 0; v < 3; v++)
-        {
-            Vec4 tmp = GeometryCalc::vec_matrix_mul(buffer.tris[t].tri[v], transform);
-            buffer.tris[t].tri[v].x = tmp.x;
-            buffer.tris[t].tri[v].y = tmp.y;
-            buffer.tris[t].tri[v].z = tmp.z;
-            buffer.tris[t].tri[v].w = tmp.w;
-        }
+    // for (uint32_t t = 0; t < buffer.size; t++)
+    //     for (uint32_t v = 0; v < 3; v++)
+    //     {
+    //         Vec4 tmp = GeometryCalc::vec_matrix_mul(buffer.tris[t].tri[v], transform);
+    //         buffer.tris[t].tri[v].x = tmp.x;
+    //         buffer.tris[t].tri[v].y = tmp.y;
+    //         buffer.tris[t].tri[v].z = tmp.z;
+    //         buffer.tris[t].tri[v].w = tmp.w;
+    //     }
 
   // translate camera to origin
   // rotate camera to -z axis
@@ -237,8 +237,8 @@ Matrix4 get_projection_transform(Matrix4 &transform, float f, float n, float fov
   Matrix4 projection {
     (std::cos(fov/2) / std::sin(fov/2)), 0,                                   0,          0,
     0,                                   (std::cos(fov/2) / std::sin(fov/2)), 0,          0,
-    0,                                   0,                                   magic_nr1,  -1,
-    0,                                   0,                                   magic_nr2,  0,
+    0,                                   0,                                   magic_nr1,  magic_nr2,
+    0,                                   0,                                   -1,  0,
   };
 
   Matrix4 tmp = GeometryCalc::matrix_matrix_mul(transform, projection);
@@ -346,7 +346,7 @@ void draw_triangle(std::vector<std::vector<ScreenBuffer>> &screen_buffer, size_t
 {
   Point p0, p1, p2;
 
-  // convert from image space (-1 to 1 x, -1 to 1 y) to screen space
+  //convert from image space (-1 to 1 x, -1 to 1 y) to screen space
   p0.x = (input_p0.x + 1) * (0.5 * (screen_width -1) );
   p0.y = (input_p0.y + 1) * (0.5 * (screen_height -1));
   p0.z = input_p0.z;
