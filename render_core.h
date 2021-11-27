@@ -329,7 +329,7 @@ void setImagePixel(std::vector<std::vector<ScreenBuffer>> &screen_buffer, const 
 bool is_top_left(const Point& a, const Point& b)
 {
   
-   return !(a.x == b.x || a.y < b.y);
+   return !(a.y < b.y);
 }
 
 // Calculate barycentric coordinates, one line at a time
@@ -349,15 +349,15 @@ void draw_triangle(std::vector<std::vector<ScreenBuffer>> &screen_buffer, size_t
   //convert from image space (-1 to 1 x, -1 to 1 y) to screen space
   p0.x = (input_p0.x + 1) * (0.5 * (screen_width -1) );
   p0.y = (input_p0.y + 1) * (0.5 * (screen_height -1));
-  p0.z = input_p0.z;
+  p0.z = (input_p0.z + 1) / 2;
 
   p1.x = (input_p1.x + 1) * (0.5 * (screen_width -1));
   p1.y = (input_p1.y + 1) * (0.5 * (screen_height -1));
-  p1.z = input_p1.z;
+  p1.z = (input_p1.z + 1) / 2;
 
   p2.x = (input_p2.x + 1) * (0.5 * (screen_width -1));
   p2.y = (input_p2.y + 1) * (0.5 * (screen_height -1));
-  p2.z = input_p2.z;
+  p2.z = (input_p2.z + 1) / 2 ;
   
   // AABB for triangle
   int minX = min3(p0.x, p1.x, p2.x);
