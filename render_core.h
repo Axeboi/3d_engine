@@ -22,78 +22,78 @@ void load_scene(TriangleBuffer &buffer)
          0.0,  0.5, 4.0, 1.0,
          0.5, -0.5, 4.0, 1.0,
     });*/
-  triangle_buffer_add_triangle(buffer, {
-    -0.5, -0.5, -0.5, 1.0,
-    -0.5, 0.5, -0.5, 1.0,
-     0.5, 0.5, -0.5, 1.0
-  });
+  // triangle_buffer_add_triangle(buffer, {
+  //   -0.5, -0.5, -0.5, 1.0,
+  //   -0.5, 0.5, -0.5, 1.0,
+  //    0.5, 0.5, -0.5, 1.0
+  // });
   
-  triangle_buffer_add_triangle(buffer, {
-    -0.5, -0.5, -0.5, 1.0,
-    0.5, 0.5, -0.5, 1.0,
-    0.5, -0.5, -0.5, 1.0,
-  });
+  // triangle_buffer_add_triangle(buffer, {
+  //   -0.5, -0.5, -0.5, 1.0,
+  //   0.5, 0.5, -0.5, 1.0,
+  //   0.5, -0.5, -0.5, 1.0,
+  // });
 
-  triangle_buffer_add_triangle(buffer, {
-    0.5, -0.5, -0.5, 1.0,
-    0.5, 0.5, -0.5, 1.0,
-    0.5, 0.5, 0.5, 1.0
-  });
+  // triangle_buffer_add_triangle(buffer, {
+  //   0.5, -0.5, -0.5, 1.0,
+  //   0.5, 0.5, -0.5, 1.0,
+  //   0.5, 0.5, 0.5, 1.0
+  // });
 
-  triangle_buffer_add_triangle(buffer, {
-    0.5, -0.5, -0.5, 1.0,
-	  0.5, 0.5, 0.5, 1.0,
-	  0.5, -0.5, 0.5, 1.0
-  });
+  // triangle_buffer_add_triangle(buffer, {
+  //   0.5, -0.5, -0.5, 1.0,
+	//   0.5, 0.5, 0.5, 1.0,
+	//   0.5, -0.5, 0.5, 1.0
+  // });
 
-  triangle_buffer_add_triangle(buffer, {
-    0.5, -0.5, 0.5, 1.0,
-	  0.5, 0.5, 0.5, 1.0,
-	  -0.5, 0.5, 0.5, 1.0
-  });
+  // triangle_buffer_add_triangle(buffer, {
+  //   0.5, -0.5, 0.5, 1.0,
+	//   0.5, 0.5, 0.5, 1.0,
+	//   -0.5, 0.5, 0.5, 1.0
+  // });
 
-  triangle_buffer_add_triangle(buffer, {
-    0.5, -0.5, 0.5, 1.0,
-	  -0.5, 0.5, 0.5, 1.0,
-	  -0.5, -0.5, 0.5, 1.0
-  });
+  // triangle_buffer_add_triangle(buffer, {
+  //   0.5, -0.5, 0.5, 1.0,
+	//   -0.5, 0.5, 0.5, 1.0,
+	//   -0.5, -0.5, 0.5, 1.0
+  // });
   
-  triangle_buffer_add_triangle(buffer, {
-    -0.5, -0.5, 0.5, 1.0,
-	  -0.5, 0.5, 0.5, 1.0,
-	  -0.5, 0.5, -0.5, 1.0
-  });
+  // triangle_buffer_add_triangle(buffer, {
+  //   -0.5, -0.5, 0.5, 1.0,
+	//   -0.5, 0.5, 0.5, 1.0,
+	//   -0.5, 0.5, -0.5, 1.0
+  // });
   
-  triangle_buffer_add_triangle(buffer, {
-    -0.5, -0.5, 0.5, 1.0,
-	  -0.5, 0.5, -0.5, 1.0,
-	  -0.5, -0.5, -0.5, 1.0
-  });
+  // triangle_buffer_add_triangle(buffer, {
+  //   -0.5, -0.5, 0.5, 1.0,
+	//   -0.5, 0.5, -0.5, 1.0,
+	//   -0.5, -0.5, -0.5, 1.0
+  // });
   
-  triangle_buffer_add_triangle(buffer, {
-    -0.5, 0.5, -0.5, 1.0,
-	  -0.5, 0.5, 0.5, 1.0,
-	  0.5, 0.5, 0.5, 1.0
-  });
+  // triangle_buffer_add_triangle(buffer, {
+  //   -0.5, 0.5, -0.5, 1.0,
+	//   -0.5, 0.5, 0.5, 1.0,
+	//   0.5, 0.5, 0.5, 1.0
+  // });
   
   
-  triangle_buffer_add_triangle(buffer, {
-    -0.5, 0.5, -0.5, 1.0,
-	  0.5, 0.5, 0.5, 1.0,
-	  0.5, 0.5, -0.5, 1.0
-  });
+  // triangle_buffer_add_triangle(buffer, {
+  //   -0.5, 0.5, -0.5, 1.0,
+	//   0.5, 0.5, 0.5, 1.0,
+	//   0.5, 0.5, -0.5, 1.0
+  // });
  
-  triangle_buffer_add_triangle(buffer, {
-   	0.5, -0.5, 0.5, 1.0,
-	  -0.5, -0.5, 0.5, 1.0,
-	  -0.5, -0.5, -0.5, 1.0
-  });
+  // triangle_buffer_add_triangle(buffer, {
+  //  	0.5, -0.5, 0.5, 1.0,
+	//   -0.5, -0.5, 0.5, 1.0,
+	//   -0.5, -0.5, -0.5, 1.0
+  // });
 	
-  triangle_buffer_add_triangle(buffer, {
-    0.5, -0.5, 0.5, 1.0,
-	  -0.5, -0.5, -0.5, 1.0,
-	  0.5, -0.5, -0.5, 1.0
-  });
+  // triangle_buffer_add_triangle(buffer, {
+  //   0.5, -0.5, 0.5, 1.0,
+	//   -0.5, -0.5, -0.5, 1.0,
+	//   0.5, -0.5, -0.5, 1.0
+  // });
 };
 
 void transform_vectors(TriangleBuffer &triangles, Vec4 &move)
@@ -259,29 +259,47 @@ void apply_world_to_projection_transform(TriangleBuffer& triangles, Matrix4 tran
 }
      
 
-void apply_light(TriangleBuffer &triangles, Vec4 light_source_normal) // 
+void apply_light(TriangleBuffer &triangles, Vec4 light_source_normalized) // 
 {
-  GeometryCalc::normalize(light_source_normal);
+  GeometryCalc::normalize(light_source_normalized);
   Matrix4 camera_matrix {
     -1.0, 0, 0, 0,
     0, 1.0, 0, 0,
     0, 0, -1.0, 0,
-    light_source_normal.x, light_source_normal.y, light_source_normal.z, 1,
+    light_source_normalized.x, light_source_normalized.y, light_source_normalized.z, 1,
   };
   
+  float amb = 0.2f;
+  // float diff = 0.6f;
+  // float spec = 0.2f;
+
+  Vec4 point_light { 30.0f, 20.0f, -20.0, 1.0f, };
+  //Vec4 view_direction { 0.0f, 0.0f, -1.0f, 1.0f, };
+
   for (size_t i = 0; i < triangles.size; i++)
   {
-    Vec4 light_direction { 0.0, 0.0, -1.0, 1.0 };
-    Vec4 point_location = GeometryCalc::vec_matrix_mul(triangles.tris[i].tri[0], camera_matrix);
-    // if(GeometryCalc::vector_dot(point_location, light_direction) > 0)   // If triangle is visible to the camera, this should be a positive number
-    // {
+    for (size_t p = 0; p < 3; p++)
+    {
+      float c = 1.0f;
+      float camera_light = 1.0f;
 
-      Vec4 normal = triangles.tris[i].normal;
-      GeometryCalc::normalize(normal);
-      GeometryCalc::normalize(point_location);
+      Vec4 point_to_light = GeometryCalc::vector_sub(point_light, triangles.tris[i].tri[p]);
+      Vec4 point_to_camera = GeometryCalc::vector_sub(light_source_normalized, triangles.tris[i].tri[p]);
+      GeometryCalc::normalize(point_to_light);
+      GeometryCalc::normalize(point_to_camera);
 
-      triangles.tris[i].shadow_interpolated = std::max(GeometryCalc::vector_cos(normal, point_location), 0.0f);
-    // }
+      Vec4 half_vector = GeometryCalc::vector_add(point_to_light, point_to_camera);
+
+      GeometryCalc::normalize(half_vector);
+      GeometryCalc::normalize(triangles.tris[i].normal);
+
+      float diff = 0.5f * GeometryCalc::vector_dot(triangles.tris[i].normal, point_to_light);
+      float spec = 0.3f * std::pow(GeometryCalc::vector_dot(half_vector, point_to_camera), 100);
+
+      triangles.tris[i].tri[p].r = std::max((amb + diff + spec), 0.0f);
+      triangles.tris[i].tri[p].g = std::max((amb + diff + spec), 0.0f);
+      triangles.tris[i].tri[p].b = std::max((amb + diff + spec), 0.0f);
+    }
   }
 };
 
@@ -305,23 +323,26 @@ void rasterize(const TriangleBuffer &triangles, std::vector<std::vector<ScreenBu
   }
 };
 
-void setImagePixel(std::vector<std::vector<ScreenBuffer>> &screen_buffer, const Point &p, int w0, int w1, int w2, float z0, float z1, float z2, float col)
+void setImagePixel(std::vector<std::vector<ScreenBuffer>> &screen_buffer, const Point &p, int w0, int w1, int w2, Point p0, Point p1, Point p2, float col)
 {
   float fw0 = (float) w0 / (float) (w0 + w1 + w2);
   float fw1 = (float) w1 / (float) ((w0 + w1 + w2));
   float fw2 = (float) w2 / (float) ((w0 + w1 + w2));
 
-  float z = z0 + (fw1 * (z1-z0)) + (fw2 * (z2 - z0));
+  float z = p0.z + (fw1 * (p1.z-p0.z)) + (fw2 * (p2.z - p0.z));
 
+  float r = p0.r + (fw1 * (p1.r-p0.r)) + (fw2 * (p2.r - p0.r));
+  float g = p0.g + (fw1 * (p1.g-p0.g)) + (fw2 * (p2.g - p0.g));
+  float b = p0.b + (fw1 * (p1.b-p0.b)) + (fw2 * (p2.b - p0.b));
+
+  //std::cout << p0.r << " " << p0.g << " " << p0.b << std::endl;
   if (screen_buffer[p.y][p.x].z < z)
   {
     screen_buffer[p.y][p.x].z = z;
-    // screen_buffer[p.y][p.x].r = fw0;
-    // screen_buffer[p.y][p.x].g = fw1;
-    // screen_buffer[p.y][p.x].b = fw2;
-     screen_buffer[p.y][p.x].r = (unsigned int) (col * 255.0f);
-     screen_buffer[p.y][p.x].g = (unsigned int) (col * 255.0f);
-     screen_buffer[p.y][p.x].b = (unsigned int) (col * 255.0f);
+    
+    screen_buffer[p.y][p.x].r = r * 255.0f;
+    screen_buffer[p.y][p.x].g = g * 255.0f;
+    screen_buffer[p.y][p.x].b = b * 255.0f;
     //do moar stuff
   }
 }
@@ -345,20 +366,30 @@ int max3(int a, int b, int c) { return std::max(std::max(a, b), c); };
 void draw_triangle(std::vector<std::vector<ScreenBuffer>> &screen_buffer, size_t screen_width, size_t screen_height, Vec4& input_p0, Vec4& input_p1, Vec4& input_p2, float col)
 {
   Point p0, p1, p2;
+  //std::cout << input_p0.r << " " << input_p1.g << " " << input_p2.b << std::endl;
 
   //convert from image space (-1 to 1 x, -1 to 1 y) to screen space
   p0.x = (input_p0.x + 1) * (0.5 * (screen_width -1) );
   p0.y = (input_p0.y + 1) * (0.5 * (screen_height -1));
   p0.z = (input_p0.z + 1) / 2;
+  p0.r = input_p0.r;
+  p0.g = input_p0.g;
+  p0.b = input_p0.b;
 
   p1.x = (input_p1.x + 1) * (0.5 * (screen_width -1));
   p1.y = (input_p1.y + 1) * (0.5 * (screen_height -1));
   p1.z = (input_p1.z + 1) / 2;
+  p1.r = input_p1.r;
+  p1.g = input_p1.g;
+  p1.b = input_p1.b;
 
   p2.x = (input_p2.x + 1) * (0.5 * (screen_width -1));
   p2.y = (input_p2.y + 1) * (0.5 * (screen_height -1));
   p2.z = (input_p2.z + 1) / 2 ;
-  
+  p2.r = input_p2.r;
+  p2.g = input_p2.g;
+  p2.b = input_p2.b;
+
   // AABB for triangle
   int minX = min3(p0.x, p1.x, p2.x);
   int minY = min3(p0.y, p1.y, p2.y);
@@ -387,7 +418,7 @@ void draw_triangle(std::vector<std::vector<ScreenBuffer>> &screen_buffer, size_t
       int w2 = orient2d(p0, p1, p) + bias2;
       if (w0 >= 0 && w1 >= 0 && w2 >= 0)
       {
-        setImagePixel(screen_buffer, p, w0, w1, w2, p0.z, p1.z, p2.z, col);
+        setImagePixel(screen_buffer, p, w0, w1, w2, p0, p1, p2, col);
       }
     }
   }

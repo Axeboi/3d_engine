@@ -115,10 +115,6 @@ parse_obj_file(TriangleBuffer &buffer)
             normal_from_file >> normal_to_array.z;
             normal_to_array.w = 1.0;
 
-            // normal_to_array.x = -normal_to_array.x;
-            // normal_to_array.y = -normal_to_array.y;
-            // normal_to_array.z = -normal_to_array.z;
-
             normal_arr.push_back(normal_to_array);
         }
 

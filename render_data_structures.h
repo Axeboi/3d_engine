@@ -10,6 +10,11 @@ struct Vec4
   float y;
   float z;
   float w;
+
+  float r;
+  float g;
+  float b;
+  float a;
 };
 
 struct Point
@@ -19,10 +24,10 @@ struct Point
   int y;
   float z;
 
-  uint32_t r;
-  uint32_t g;
-  uint32_t b;
-  uint32_t a;
+  float r;
+  float g;
+  float b;
+  float a;
 };
 
 struct Matrix4
