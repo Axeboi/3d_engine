@@ -167,8 +167,8 @@ void transform_vectors(TriangleBuffer &triangles, Vec4 &move)
             //tmp = GeometryCalc::matrix_matrix_mul(x_rot, trans);
             tmp2 = GeometryCalc::vec_matrix_mul(triangles.tris[i].tri[j], rotate_and_move);
             triangles.tris[i].tri[j] = tmp2;
-            Vec4 n = GeometryCalc::vec_matrix_mul(triangles.tris[i].normal, tmp);
-            triangles.tris[i].normal = n;
+            Vec4 n = GeometryCalc::vec_matrix_mul(triangles.tris[i].normal[j], tmp);
+            triangles.tris[i].normal[j] = n;
         }
 };
 
@@ -283,18 +283,18 @@ void apply_light(TriangleBuffer &triangles, Vec4 light_source_normalized) //
       float c = 1.0f;
       float camera_light = 1.0f;
 
-      Vec4 point_to_light = GeometryCalc::vector_sub(point_light, triangles.tris[i].tri[p]);
-      Vec4 point_to_camera = GeometryCalc::vector_sub(light_source_normalized, triangles.tris[i].tri[p]);
+      Vec4 point_to_light = GeometryCalc::vector_sub(triangles.tris[i].tri[p] ,point_light);
+      Vec4 point_to_camera = GeometryCalc::vector_sub(triangles.tris[i].tri[p], light_source_normalized);
       GeometryCalc::normalize(point_to_light);
       GeometryCalc::normalize(point_to_camera);
 
       Vec4 half_vector = GeometryCalc::vector_add(point_to_light, point_to_camera);
 
       GeometryCalc::normalize(half_vector);
-      GeometryCalc::normalize(triangles.tris[i].normal);
+      GeometryCalc::normalize(triangles.tris[i].normal[p]);
 
-      float diff = 0.5f * GeometryCalc::vector_dot(triangles.tris[i].normal, point_to_light);
-      float spec = 0.3f * std::pow(GeometryCalc::vector_dot(half_vector, point_to_camera), 100);
+      float diff = 0.6f * GeometryCalc::vector_dot(triangles.tris[i].normal[p], point_to_light);
+      float spec = 0.2f * std::pow(GeometryCalc::vector_dot(half_vector, point_to_camera), 4);
 
       triangles.tris[i].tri[p].r = std::max((amb + diff + spec), 0.0f);
       triangles.tris[i].tri[p].g = std::max((amb + diff + spec), 0.0f);

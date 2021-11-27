@@ -142,7 +142,7 @@ parse_obj_file(TriangleBuffer &buffer)
 
                 token = part.substr(start);
 
-                triangle.normal = normal_arr[stoi(token) - 1];
+                triangle.normal[i] = normal_arr[stoi(token) - 1];
             
                 i--;
             }

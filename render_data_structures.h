@@ -51,7 +51,7 @@ void to_identity_matrix(Matrix4 &m)
 struct Triangle
 {
   Vec4 tri[3];
-  Vec4 normal;
+  Vec4 normal[3];
   float shadow_interpolated;
 };
 

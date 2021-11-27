@@ -93,7 +93,7 @@ public:
 		if (GetKey(olc::Key::W).bHeld) camera_location.y += camera_speed;
 		if (GetKey(olc::Key::S).bHeld) camera_location.y -= camera_speed;
 		if (GetKey(olc::Key::Z).bPressed) camera_speed = 2.0;
-		if (GetKey(olc::Key::X).bPressed) camera_speed = 0.1f;
+		if (GetKey(olc::Key::X).bPressed) camera_speed = 0.5f;
 		//assert_vectors();
 		//assert_matrix();
 
